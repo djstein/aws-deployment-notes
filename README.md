@@ -16,6 +16,7 @@ The goal is to have a standard for:
 - use of LetsEncrypt to create SSL/TLS certificates and use with Route 53
 - host a Docker based Jenkins system to test changes to repositories (also routed with Route 53)
 - automatically rebuild and deploy system based on frontend, backend, or image changes
+- have entirely seperate / replicated system as a staging environment
 
 Hosting a static website on S3 with Route 53 routing:
 https://docs.aws.amazon.com/AmazonS3/latest/dev/website-hosting-custom-domain-walkthrough.html
