@@ -103,3 +103,26 @@ There will be one domain name with four subdomains. Requests to these URLs will 
 - provide forms for user info, settings, email preferences, stripe additions as settings
 - provide theme through styled components
 - tests for al components with Jest + Enzyme
+
+# Setup VPC
+- setup VPC (http://docs.aws.amazon.com/AmazonVPC/latest/GettingStartedGuide/getting-started-ipv4.html)
+
+# Setup AWS CLI
+(http://docs.aws.amazon.com/cli/latest/userguide/installing.html) (http://docs.aws.amazon.com/cli/latest/userguide/cli-environment.html)
+- `pip install awscli`
+- create access key: https://console.aws.amazon.com/iam/home?region=us-east-1#/users/djstein?section=security_credentials
+- put access key into config
+```
+$ aws configure
+AWS Access Key ID [None]: AWS_ACCESS_KEY_ID
+AWS Secret Access Key [None]: AWS_SECRET_ACCESS_KEY
+Default region name [None]: AWS_DEFAULT_REGION
+Default output format [None]: json
+```
+- check user: `aws iam get-user`
+
+# Begin ECS CLI setup
+```aws iam --region us-east-2 create-role --role-name ecsExecutionRole --assume-role-policy-document file://execution-assume-role.json
+aws iam --region us-east-2 attach-role-policy --role-name ecsExecutionRole --policy-arn arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+```
+- setup ecs cli
