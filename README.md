@@ -28,3 +28,29 @@ https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-
 
 Using ECS Compose for Docker Compose Files
 https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cmd-ecs-cli-compose.html
+
+## Development Process
+- git clone backend
+- git clone frontend
+- git clone deployment
+- docker-compose up --build deployment/local/
+- edit code
+- push to github
+
+## CLI Process Frontend:
+- git push frontend
+- jenkins webhook
+- build with new hash and run jest tests
+- push bundle to S3 test bucket
+- build backend (test variant) and run integration tests against bundle
+- if 100% test pass, place dist folder in production S3
+- bust index.html hash, it contains new hashed bundle url
+
+## CLI Process Backend:
+- git push backend
+- jenkins webhook
+- build new docker images for backend processes
+- run unit tests against new docker images
+- run integration tests with latest bundle against new docker images
+- if 100% test pass, push new images to ECS/EKS
+- ECS/EKS will auto deploy changes
