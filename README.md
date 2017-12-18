@@ -63,3 +63,43 @@ There will be one domain name with four subdomains. Requests to these URLs will 
 - staging.example.com -> loads static files from S3 bucket for staging environment
 - stagingapi.example.com -> used for the staging version of backend services on ALB
 - jenkins.example.com -> loads Jenkins page which is handled by ALB
+
+
+## Backend Requirements
+- Python 3
+- use Django 2 + DRF
+- register user via API
+- send registration email to user
+- login user only with email
+- use JWT for verification of user
+- logout via API if JWT present
+- allow for password changes via API
+- allow for user model updates
+- allow for email preference updates
+- allow for attached user settings
+- save and update Stripe token per user
+- send emails
+- send tasks to workers
+- upload photos / files to S3
+- connect to test DB
+- connect to prod / staging DB
+- when local and debug, serve static files from Django
+- when test and debug, serve static files from S3
+- when prod, serve static files from S3
+- environment variables stored on .env for local
+- environment variables stored on AWS for test, staging, prod
+- unit Tests for all views, models, serializers
+- integration Tests for workflows with frontend
+
+## Frontend Requirements
+- use React 16 + ES6+
+- use React Router, Redux, Redux Router
+- use Babel Transpile
+- build with new assets hash
+- no css, all styles as styled components
+- static files are placed on S3 with build dist folder (not saved in bundle)
+- handle storing JWT token for authentication of requests (bypass CSRF Token)
+- provide login, logut, registration flows
+- provide forms for user info, settings, email preferences, stripe additions as settings
+- provide theme through styled components
+- tests for al components with Jest + Enzyme
