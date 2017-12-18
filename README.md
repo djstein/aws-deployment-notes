@@ -55,3 +55,11 @@ https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cmd-ecs-cli-compose.
 - run integration tests with latest bundle against new docker images
 - if 100% test pass, push new images to ECS/EKS
 - ECS/EKS will auto deploy changes
+
+## URL Structure
+There will be one domain name with four subdomains. Requests to these URLs will be handled with Route 53
+- example.com -> loads static files from S3 bucket. www.example.com is redirected to example.com
+- api.example.com -> used for backend services on ALB
+- staging.example.com -> loads static files from S3 bucket for staging environment
+- stagingapi.example.com -> used for the staging version of backend services on ALB
+- jenkins.example.com -> loads Jenkins page which is handled by ALB
