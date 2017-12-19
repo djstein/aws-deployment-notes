@@ -121,6 +121,21 @@ Default output format [None]: json
 ```
 - check user: `aws iam get-user`
 
+# MFA
+https://aws.amazon.com/premiumsupport/knowledge-center/authenticate-mfa-cli/
+arn-of-the-mfa-device: https://console.aws.amazon.com/iam/home?region=<region>#/users/<username>?section=security_credentials
+code-from-token: from device
+```aws sts get-session-token --serial-number <arn-of-the-mfa-device> --token-code <code-from-token>```
+replace values in .aws/credentials with values from output:
+```
+[profile-name]
+output = json
+region = us-east-1
+aws_access_key_id = <Access-key-as-in-returned-output>
+aws_secret_access_key = <Secret-access-key-as-in-returned-output>
+aws_session_token = <Session-Token-as-in-returned-output>
+```
+
 # Begin ECS CLI setup
 ```aws iam --region us-east-2 create-role --role-name ecsExecutionRole --assume-role-policy-document file://execution-assume-role.json
 aws iam --region us-east-2 attach-role-policy --role-name ecsExecutionRole --policy-arn arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
