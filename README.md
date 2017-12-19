@@ -229,3 +229,14 @@ clean up with
 ecs-cli compose --project-name tutorial service down
 ecs-cli down --force
 ```
+
+# Pushing Docker Images to AWS ECS
+start by getting the login command and token
+```aws ecr get-login --no-include-email --region us-east-1 ```
+copy and paste the result to login
+move to the directory of docker build the image you wish to push
+```docker build -t <org>/<image> .```
+tag your image
+```docker tag <org>/<image>:latest <vals>.<location>.amazonaws.com/<org>/<image>:latest```
+after authenticating push the image
+```docker push 376391014730.dkr.ecr.us-east-1.amazonaws.com/bentobox/jenkins:latest```
