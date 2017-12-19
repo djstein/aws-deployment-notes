@@ -123,6 +123,7 @@ Default output format [None]: json
 
 # MFA
 https://aws.amazon.com/premiumsupport/knowledge-center/authenticate-mfa-cli/
+https://github.com/aws/amazon-ecs-cli/issues/284
 arn-of-the-mfa-device: https://console.aws.amazon.com/iam/home?region=<region>#/users/<username>?section=security_credentials
 code-from-token: from device
 ```aws sts get-session-token --serial-number <arn-of-the-mfa-device> --token-code <code-from-token>```
@@ -135,9 +136,96 @@ aws_access_key_id = <Access-key-as-in-returned-output>
 aws_secret_access_key = <Secret-access-key-as-in-returned-output>
 aws_session_token = <Session-Token-as-in-returned-output>
 ```
+Either set the values in above .aws/creds or as environment variables
 
 # Begin ECS CLI setup
 ```aws iam --region us-east-2 create-role --role-name ecsExecutionRole --assume-role-policy-document file://execution-assume-role.json
 aws iam --region us-east-2 attach-role-policy --role-name ecsExecutionRole --policy-arn arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
 ```
-- setup ecs cli
+- install ecs cli:
+```
+sudo curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-darwin-amd64-latest
+sudo chmod +x /usr/local/bin/ecs-cli
+ecs-cli --version
+```
+at .aws create file execution-assume-role.json
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+```
+run
+```
+aws iam --region us-east-1 create-role --role-name ecsExecutionRole --assume-role-policy-document file://execution-assume-role.json
+aws iam --region us-east-1 attach-role-policy --role-name ecsExecutionRole --policy-arn arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+```
+create cluster
+```
+ecs-cli configure --cluster tutorial --region us-east-1 --default-launch-type FARGATE --config-name tutorial
+```
+create ecs profile
+```
+ecs-cli configure profile --access-key $AWS_ACCESS_KEY_ID --secret-key $AWS_SECRET_ACCESS_KEY --profile-name  tutorial
+```
+run up command. if MFA used, ensure account details are in environemt variables or tell ecs-cli to use profile
+```
+ecs-cli up   - or -  ecs-cli up --aws-profile <name>
+```
+Save the subnets returned for  ecs-params.yml
+
+Using the AWS CLI create a security group using the VPC ID from the previous output: 
+```
+aws ec2 create-security-group --group-name "my-sg" --description "My security group" --vpc-id "VPC_ID"
+```
+Save this for the ecs-params.yml
+
+Using AWS CLI, add a security group rule to allow inbound access on port 80:
+```
+aws ec2 authorize-security-group-ingress --group-id "security_group_id" --protocol tcp --port 80 --cidr 0.0.0.0/0
+```
+
+Create a version 2 docker-compose.yml file and populate it
+
+Create a ecs-params.yml file and populate it with:
+```
+version: 1
+task_definition:
+  task_execution_role: ecsExecutionRole
+  ecs_network_mode: awsvpc
+  task_size:
+    mem_limit: 0.5GB
+    cpu_limit: 256
+run_params:
+  network_configuration:
+    awsvpc_configuration:
+      subnets:
+        - "subnet ID 1"
+        - "subnet ID 2"
+      security_groups:
+        - "security group ID"
+      assign_public_ip: ENABLED
+```
+
+once configured both files run:
+```ecs-cli compose --project-name tutorial service up```
+
+check on the containers status with:
+```ecs-cli compose --project-name tutorial service ps```
+
+get the ip address from ps and view
+
+clean up with
+```
+ecs-cli compose --project-name tutorial service down
+ecs-cli down --force
+```
