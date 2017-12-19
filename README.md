@@ -240,3 +240,6 @@ tag your image
 ```docker tag <org>/<image>:latest <vals>.<location>.amazonaws.com/<org>/<image>:latest```
 after authenticating push the image
 ```docker push <vals>.<location>.amazonaws.com/<org>/<image>:latest```
+
+# Assign Role to Pushed Images
+once images are up, they cannot be used in build processes yet. they must have permissions added to them to function. refer to this page for details on IAM role: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/instance_IAM_role.html
