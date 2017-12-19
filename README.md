@@ -239,4 +239,4 @@ move to the directory of docker build the image you wish to push
 tag your image
 ```docker tag <org>/<image>:latest <vals>.<location>.amazonaws.com/<org>/<image>:latest```
 after authenticating push the image
-```docker push 376391014730.dkr.ecr.us-east-1.amazonaws.com/bentobox/jenkins:latest```
+```docker push <vals>.<location>.amazonaws.com/<org>/<image>:latest```
