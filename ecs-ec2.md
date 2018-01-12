@@ -37,3 +37,15 @@ PS
 ```
 ecs-cli ps --aws-profile mfa
 ```
+
+After running, allow for services due to restarts
+```
+ecs-cli compose down --aws-profile mfa
+ecs-cli compose service up --aws-profile mfa
+```
+
+Clean up
+```
+ecs-cli compose service rm --aws-profile mfa
+ecs-cli down --force --aws-profile mfa
+```
