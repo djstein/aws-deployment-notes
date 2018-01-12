@@ -11,6 +11,11 @@ ecs-cli configure profile --access-key ${AWS_ACCESS_KEY_ID} --secret-key ${AWS_S
 ```
 
 Set up id_rsa https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair
+after creating the keys be sure to do the following:
+```
+chmod 400 <name>.pem
+ssh-add <name>.pen
+```
 
 Create instances
 ```
