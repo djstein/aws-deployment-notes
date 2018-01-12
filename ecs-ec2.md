@@ -32,3 +32,8 @@ Compose Up
 ```
 ecs-cli compose up --create-log-groups --cluster <project> --aws-profile mfa
 ```
+
+PS
+```
+ecs-cli ps --aws-profile mfa
+```
