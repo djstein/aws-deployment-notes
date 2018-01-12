@@ -19,13 +19,13 @@ ssh-add <name>.pen
 
 Create instances
 ```
-ecs-cli up --keypair id_rsa --capability-iam --size 2 --instance-type t2.medium
+ecs-cli up --keypair <name> --capability-iam --size 2 --instance-type t2.medium
 
 # if using a non default config and mfa
-ecs-cli up --keypair id_rsa --capability-iam --size 2 --instance-type t2.medium --cluster <project> --aws-profile mfa
+ecs-cli up --keypair <name>.pem --capability-iam --size 2 --instance-type t2.medium --cluster <project> --aws-profile mfa
 
-# if with vpc, subnets, and force to shut down exisiting cluster
-ecs-cli up --keypair ~/.ssh/id_rsa --capability-iam --size 2 --instance-type t2.medium --vpc vpc-<val> --subnets subnet-<val>,subnet-<val> --aws-profile mfa --force
+# if with vpc, subnets, secruity group and force to shut down exisiting cluster
+ecs-cli up --keypair <name>.pem --capability-iam --size 2 --instance-type t2.medium --vpc vpc-<val> --subnets subnet-<val>,subnet-<val> --security-group <val> --aws-profile mfa --force
 ```
 
 Compose Up
