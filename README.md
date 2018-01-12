@@ -189,10 +189,12 @@ aws ec2 create-security-group --group-name "my-sg" --description "My security gr
 ```
 Save this for the ecs-params.yml
 
-Using AWS CLI, add a security group rule to allow inbound access on port 80:
+Using AWS CLI, add a security group rule to allow inbound access to specific port and IP Address:
 ```
-aws ec2 authorize-security-group-ingress --group-id "security_group_id" --protocol tcp --port 80 --cidr 0.0.0.0/0
+aws ec2 authorize-security-group-ingress --group-id "security_group_id" --protocol tcp --port <port> --cidr <ip>
 ```
+For a site with access to the whole Internet, use port 80 and ip 0.0.0.0/0
+For a site that should have speicifc access only, specifiy one port or more ports and a specific IP Address.
 
 Create a version 2 docker-compose.yml file and populate it
 
