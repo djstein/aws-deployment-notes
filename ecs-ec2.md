@@ -10,6 +10,8 @@ Add Credentials
 ecs-cli configure profile --access-key ${AWS_ACCESS_KEY_ID} --secret-key ${AWS_SECRET_ACCESS_KEY} --profile-name  <project_name>
 ```
 
+Set up id_rsa https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair
+
 Create instances
 ```
 ecs-cli up --keypair id_rsa --capability-iam --size 2 --instance-type t2.medium
