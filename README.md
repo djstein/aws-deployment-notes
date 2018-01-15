@@ -231,6 +231,13 @@ clean up with
 ecs-cli compose --project-name tutorial service down
 ecs-cli down --force
 ```
+clean up any images still running
+```
+ecs-cli ps
+--- see list of instances ---
+
+ecs-cli down <task definition name>
+```
 
 # Pushing Docker Images to AWS ECS
 start by getting the login command and token
