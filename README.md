@@ -241,7 +241,7 @@ ecs-cli down <task definition name>
 
 # Pushing Docker Images to AWS ECS
 start by getting the login command and token
-```aws ecr get-login --no-include-email --region us-east-1 ```
+```aws ecr get-login --no-include-email --region us-east-1 --profile mfa```
 copy and paste the result to login
 move to the directory of docker build the image you wish to push
 ```docker build -t <org>/<image> .```
