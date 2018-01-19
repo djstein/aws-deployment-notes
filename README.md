@@ -252,3 +252,8 @@ after authenticating push the image
 
 # Assign Role to Pushed Images
 once images are up, they cannot be used in build processes yet. they must have permissions added to them to function. refer to this page for details on IAM role: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/instance_IAM_role.html
+
+# Deploying With Load Balancer
+Create a ALB then run:
+```ecs-cli compose --project-name <name> service up --target-group-arn <load balancer arn> --container-name ci-alb --container-port 8080 --role ecsServiceRole```
+After add the ALB DNS name to Route 53
